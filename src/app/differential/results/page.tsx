@@ -107,7 +107,7 @@ export default function StudyResultsPage() {
                     >
                         <h2 className="text-3xl font-bold mb-10 text-center text-gray-900 dark:text-white">System Interactions</h2>
 
-                        <Card className="p-6">
+                        <Card className="p-6 border-none">
                             <RelationshipDiagram />
                         </Card>
                     </motion.section>

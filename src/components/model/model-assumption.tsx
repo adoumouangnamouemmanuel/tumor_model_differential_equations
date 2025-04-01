@@ -21,7 +21,9 @@ export function ModelAssumption({ number, title, icon, description, className }:
             transition={{ duration: 0.5, delay: number * 0.1 }}
             whileHover={{ scale: 1.02 }}
         >
-            <Card>
+            <Card
+                className="shadow-lg border-none"
+            >
                 <CardHeader className="pb-2">
                     <CardTitle className="flex items-center text-lg">
                         <div className="w-8 h-8 rounded-full bg-[hsl(var(--primary))] bg-opacity-20 flex items-center justify-center mr-3">

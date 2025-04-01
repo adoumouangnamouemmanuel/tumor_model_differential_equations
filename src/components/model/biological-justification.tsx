@@ -18,7 +18,7 @@ export function BiologicalJustification({ title, icon, description }: Biological
             transition={{ duration: 0.5 }}
             whileHover={{ scale: 1.02 }}
         >
-            <Card>
+            <Card className="shadow-lg border-none">
                 <CardHeader>
                     <CardTitle className="flex items-center">
                         <div className="mr-2 text-[hsl(var(--primary))]">{icon}</div>

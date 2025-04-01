@@ -71,7 +71,7 @@ export function ResultsHero() {
                 </motion.div>
 
                 <motion.h1
-                    className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900 dark:text-white"
+                    className="text-4xl md:text-5xl lg:text-6xl py-8 font-bold mb-6 text-transparent dark:text-white bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 dark:from-blue-400 dark:to-blue-600"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 }}

@@ -83,7 +83,7 @@ export function SiteHeader() {
                                 backgroundSize: "200% 200%",
                             }}
                         >
-                            MATH221 & CE122
+                            Diverse Buzima
                         </motion.span>
                     </Link>
                 </motion.div>

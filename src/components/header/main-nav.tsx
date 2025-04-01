@@ -32,9 +32,9 @@ import {
 
 export function MainNav() {
     return (
-        <NavigationMenu>
-            <NavigationMenuList>
-                <NavigationMenuItem>
+        <NavigationMenu className="border-none">
+            <NavigationMenuList className="border-none">
+                <NavigationMenuItem className="border-none shadow-sm rounded-full">
                     <Link href="/" legacyBehavior passHref>
                         <NavigationMenuLink
                             className={cn(
@@ -55,7 +55,7 @@ export function MainNav() {
                     </Link>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
+                <NavigationMenuItem className="border-none shadow-sm rounded-full">
                     <NavigationMenuTrigger className="cursor-pointer font-medium">
                         <div className="flex items-center gap-2">
                             <motion.div
@@ -100,7 +100,7 @@ export function MainNav() {
                                 </div>
 
                                 {/* Row 2 - Matrix Layout */}
-                                <div className="grid grid-cols-2 gap-2">
+                                <div className="grid grid-cols-2 gap-2 border-none">
                                     <MatrixItem
                                         href="/differential/introduction"
                                         title="Introduction"
@@ -150,8 +150,8 @@ export function MainNav() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger className="cursor-pointer font-medium">
+                <NavigationMenuItem className="border-none shadow-sm rounded-full">
+                    <NavigationMenuTrigger className="cursor-pointer font-medium border-none">
                         <div className="flex items-center gap-2">
                             <motion.div
                                 whileHover={{ rotate: 360, scale: 1.2 }}
@@ -162,9 +162,9 @@ export function MainNav() {
                             <span>Applied Programming</span>
                         </div>
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent>
+                    <NavigationMenuContent className="border-none">
                         <motion.ul
-                            className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] bg-white dark:bg-slate-900 rounded-md shadow-lg border border-gray-200 dark:border-slate-700"
+                            className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] bg-white dark:bg-slate-900 rounded-md shadow-lg"
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ type: "spring", stiffness: 400, damping: 40 }}
@@ -183,7 +183,7 @@ export function MainNav() {
                                             whileHover={{ x: "100%" }}
                                             transition={{ duration: 1.5 }}
                                         />
-                                        <div className="mt-4 mb-2 text-lg font-medium text-white">Applied Programming</div>
+                                        <div className="mt-4 mb-2 text-lg font-medium text-white">Code Explanation</div>
                                         <p className="text-sm leading-tight text-white/90">
                                             Numerical methods and code implementation for solving and analyzing our ODE model.
                                         </p>
@@ -215,7 +215,7 @@ export function MainNav() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
+                <NavigationMenuItem className="border-none shadow-sm rounded-full">
                     <Link href="/promo-video" legacyBehavior passHref>
                         <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "cursor-pointer font-medium")}>
                             <div className="flex items-center gap-2">
@@ -233,7 +233,7 @@ export function MainNav() {
                     </Link>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
+                <NavigationMenuItem className="border-none shadow-sm rounded-full">
                     <Link href="/contact" legacyBehavior passHref>
                         <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "cursor-pointer font-medium")}>
                             <div className="flex items-center gap-2">
@@ -249,7 +249,7 @@ export function MainNav() {
                     </Link>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
+                <NavigationMenuItem className="border-none shadow-sm rounded-full">
                     <Link href="/about" legacyBehavior passHref>
                         <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "cursor-pointer font-medium")}>
                             <div className="flex items-center gap-2">
@@ -281,7 +281,7 @@ function MatrixItem({
     description: string
 }) {
     return (
-        <NavigationMenuLink asChild>
+        <NavigationMenuLink asChild className="border-none">
             <motion.a
                 href={href}
                 className="block select-none rounded-md p-3 hover:bg-gray-100 dark:hover:bg-slate-800 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer text-gray-800 dark:text-gray-200 transition-colors"
@@ -306,27 +306,27 @@ function MatrixItem({
 const ListItem = React.forwardRef<
     React.ElementRef<"a">,
     React.ComponentPropsWithoutRef<"a"> & { icon?: React.ReactNode }
->(({ className, title, children, icon }, ref) => {
+>(({ className, title, children, icon, href, ...props }, ref) => {
     return (
-        <li>
-            <NavigationMenuLink asChild>
-                <a
-                    ref={ref}
-                    className={cn(
-                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 dark:hover:bg-slate-800 focus:bg-accent focus:text-accent-foreground cursor-pointer text-gray-800 dark:text-gray-200",
-                        className,
-                    )}
-                >
-                    <div className="flex items-center gap-2 text-sm font-medium leading-none">
-                        <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
-                            {icon}
-                        </motion.div>
-                        {title}
-                    </div>
-                    <p className="line-clamp-2 text-sm leading-snug text-gray-600 dark:text-gray-400">{children}</p>
-                </a>
-            </NavigationMenuLink>
-        </li>
-    )
-})
+        <NavigationMenuLink asChild>
+            <a
+                ref={ref}
+                href={href} // ✅ Ensure href is passed
+                className={cn(
+                    "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 dark:hover:bg-slate-800 focus:bg-accent focus:text-accent-foreground cursor-pointer text-gray-800 dark:text-gray-200",
+                    className
+                )}
+                {...props}
+            >
+                <div className="flex items-center gap-2 text-sm font-medium leading-none">
+                    {icon} {title}
+                </div>
+                <p className="line-clamp-2 text-xs leading-snug text-gray-600 dark:text-gray-400">
+                    {children}
+                </p>
+            </a>
+        </NavigationMenuLink>
+    );
+});
+
 ListItem.displayName = "ListItem"

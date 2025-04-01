@@ -53,10 +53,10 @@ function HeroSection() {
                     transition={{ duration: 0.8 }}
                     className="max-w-4xl mx-auto"
                 >
-                    <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
+                    <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-700 dark:from-blue-400 dark:to-blue-600">
                         Cancer, Diet & Immunity
                     </h1>
-                    <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+                    <p className="text-3xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto py-25">
                         Exploring the hidden battle inside the human body through mathematical modeling
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -79,7 +79,7 @@ function HeroSection() {
 // Introduction Section Component
 function IntroductionSection() {
     return (
-        <section className="py-24 bg-muted/30">
+        <section className="py-15 bg-muted/30">
             <div className="container px-4">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -89,7 +89,7 @@ function IntroductionSection() {
                     className="max-w-4xl mx-auto"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">The Challenge</h2>
-                    <div className="bg-card border border-border rounded-xl p-8 shadow-lg">
+                    <div className="bg-card rounded-xl p-8 shadow-2xl">
                         <p className="text-lg mb-6">
                             Cancer is one of the most challenging diseases in the world today, affecting millions of lives. While many
                             factors contribute to its development, diet, and lifestyle are among the most overlooked yet critical
@@ -110,7 +110,7 @@ function IntroductionSection() {
 // Research Approach Section Component
 function ResearchApproachSection() {
     return (
-        <section className="py-24">
+        <section className="py-15">
             <div className="container px-4">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                     <motion.div
@@ -120,12 +120,14 @@ function ResearchApproachSection() {
                         viewport={{ once: true }}
                         className="order-2 lg:order-1"
                     >
-                        <div className="aspect-square bg-card rounded-xl shadow-xl border border-border overflow-hidden relative">
+                        <div className="aspect-square bg-card rounded-xl shadow-xl overflow-hidden relative">
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <Image
                                     src="/images/tumor-cells.jpg"
+                                    width={1200}
+                                    height={600}
                                     alt="Model Diagram"
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                 />
                             </div>
                         </div>
@@ -136,9 +138,9 @@ function ResearchApproachSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
-                        className="order-1 lg:order-2"
+                        className="order-1 lg:order-2 shadow-lg p-10 rounded"
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Research Approach</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6">Research Approach</h2>
                         <p className="text-lg mb-6">
                             This study explores these questions using the Nonlinear Tumor-Immune Unstable Hybrid Dynamical Model
                             (NTIUNHDM), a mathematical approach designed to simulate the interactions between tumor cells, immune
@@ -158,7 +160,7 @@ function ResearchApproachSection() {
 // Findings Section Component
 function FindingsSection() {
     return (
-        <section className="py-24 bg-muted/30 relative overflow-hidden">
+        <section className="py-15 bg-muted/30 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(var(--primary-rgb),0.1),transparent_70%)]" />
             <div className="container px-4 relative z-10">
                 <motion.div
@@ -168,10 +170,10 @@ function FindingsSection() {
                     viewport={{ once: true }}
                     className="max-w-4xl mx-auto"
                 >
-                    <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Our Findings</h2>
-                    <div className="bg-card border border-border rounded-xl p-8 shadow-lg">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Findings</h2>
+                    <div className="bg-card rounded-xl p-8 shadow-2xl">
                         <p className="text-lg mb-6">
-                            Our findings reveal a critical truth: When the immune system is compromised, whether due to genetics,
+                            The paper findings reveal a critical truth: When the immune system is compromised, whether due to genetics,
                             environmental factors, or an unhealthy diet, tumor cells take advantage and multiply rapidly. However, a
                             strong immune response can slow down or even stop tumor progression.
                         </p>
@@ -199,13 +201,13 @@ function ResearchImplicationsSection() {
                     className="max-w-4xl mx-auto text-center"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold mb-8">Research Implications</h2>
-                    <p className="text-xl mb-8 max-w-3xl mx-auto">
+                    <p className="text-xl mb-8 max-w-3xl mx-auto rounded-xl shadow-2xl p-8">
                         By combining mathematics and biology, this study provides valuable insights into the hidden battle inside
                         the human body. It emphasizes the importance of maintaining a healthy immune system through medical
                         treatments and lifestyle choices. Understanding these interactions could be the key to better future cancer
                         prevention and treatment strategies.
                     </p>
-                    <Button size="lg" className="rounded-full px-8" asChild>
+                    <Button size="lg" className="rounded-full px-8 shadow-lg text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 dark:from-blue-400 dark:to-blue-600" asChild>
                         <Link href="/differential/model-description">
                             Explore the Model <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>

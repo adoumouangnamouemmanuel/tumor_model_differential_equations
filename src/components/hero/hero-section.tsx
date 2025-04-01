@@ -144,7 +144,7 @@ export function HeroSection() {
                             className="text-black dark:text-white"
                         >
                             <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto !text-black dark:!text-white">
-                                Explore the mathematical models and numerical methods used in our research on
+                                Explore the mathematical models and numerical methods used in the research paper on
                                 <br className="hidden md:block" /> tumor cells and immune system competition.
                             </p>
                         </motion.div>
@@ -226,40 +226,40 @@ export function HeroSection() {
                     </div>
 
                     {/* Animated scroll indicator */}
-                    <motion.div
-                        className="absolute bottom-10 w-full flex justify-center"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1.2, duration: 0.6 }}
-                    >
-                        <motion.div
-                            className="w-[35px] h-[64px] rounded-3xl border-4 border-blue-400 dark:border-blue-400 flex justify-center items-start p-2"
-                            animate={{
-                                boxShadow: [
-                                    "0 0 0px rgba(96, 165, 250, 0)",
-                                    "0 0 15px rgba(96, 165, 250, 0.7)",
-                                    "0 0 0px rgba(96, 165, 250, 0)",
-                                ],
-                            }}
-                            transition={{
-                                duration: 2,
-                                repeat: Number.POSITIVE_INFINITY,
-                                repeatType: "reverse",
-                            }}
-                        >
-                            <motion.div
-                                animate={{
-                                    y: [0, 24, 0],
-                                }}
-                                transition={{
-                                    duration: 1.5,
-                                    repeat: Number.POSITIVE_INFINITY,
-                                    repeatType: "loop",
-                                }}
-                                className="w-3 h-3 rounded-full bg-blue-400 dark:bg-blue-400 mb-1"
-                            />
-                        </motion.div>
-                    </motion.div>
+                    {/*<motion.div*/}
+                    {/*    className="absolute bottom-10 w-full flex justify-center"*/}
+                    {/*    initial={{ opacity: 0 }}*/}
+                    {/*    animate={{ opacity: 1 }}*/}
+                    {/*    transition={{ delay: 1.2, duration: 0.6 }}*/}
+                    {/*>*/}
+                    {/*    <motion.div*/}
+                    {/*        className="w-[35px] h-[64px] rounded-3xl border-4 border-blue-400 dark:border-blue-400 flex justify-center items-start p-2"*/}
+                    {/*        animate={{*/}
+                    {/*            boxShadow: [*/}
+                    {/*                "0 0 0px rgba(96, 165, 250, 0)",*/}
+                    {/*                "0 0 15px rgba(96, 165, 250, 0.7)",*/}
+                    {/*                "0 0 0px rgba(96, 165, 250, 0)",*/}
+                    {/*            ],*/}
+                    {/*        }}*/}
+                    {/*        transition={{*/}
+                    {/*            duration: 2,*/}
+                    {/*            repeat: Number.POSITIVE_INFINITY,*/}
+                    {/*            repeatType: "reverse",*/}
+                    {/*        }}*/}
+                    {/*    >*/}
+                    {/*        <motion.div*/}
+                    {/*            animate={{*/}
+                    {/*                y: [0, 24, 0],*/}
+                    {/*            }}*/}
+                    {/*            transition={{*/}
+                    {/*                duration: 1.5,*/}
+                    {/*                repeat: Number.POSITIVE_INFINITY,*/}
+                    {/*                repeatType: "loop",*/}
+                    {/*            }}*/}
+                    {/*            className="w-3 h-3 rounded-full bg-blue-400 dark:bg-blue-400 mb-1"*/}
+                    {/*        />*/}
+                    {/*    </motion.div>*/}
+                    {/*</motion.div>*/}
 
                     {/* Floating particles */}
                     <FloatingParticles />
@@ -293,7 +293,7 @@ export function HeroSection() {
                         />
                         <FeatureCard
                             title="Numerical Methods"
-                            description="Learn about the computational techniques used to solve and analyze our ODE models."
+                            description="Learn about the computational techniques used to solve and analyze the ODE models."
                             delay={0.4}
                             color="purple"
                         />

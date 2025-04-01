@@ -251,7 +251,7 @@ export default function ModelDescriptionPage() {
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.8}}
             >
-                <h1 className="text-4xl md:text-5xl font-bold mb-6">
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 dark:from-blue-400 dark:to-blue-600">
                     Normal-Tumor-Immune-Unhealthy Diet Model
                     <span className="text-[hsl(var(--primary))] ml-2">(NTIUNHDM)</span>
                 </h1>
@@ -306,7 +306,7 @@ export default function ModelDescriptionPage() {
                             </li>
                         </ul>
                     </div>
-                    <div className="bg-[hsl(var(--card))] p-6 rounded-xl shadow-lg border border-[hsl(var(--border))]">
+                    <div className="bg-[hsl(var(--card))] p-6 rounded-xl shadow-xl">
                         <ModelDiagram/>
                     </div>
                 </div>
@@ -381,8 +381,10 @@ export default function ModelDescriptionPage() {
                         </TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="normal" className="space-y-6">
-                        <Card>
+                    <TabsContent value="normal" className="space-y-6 border-none">
+                        <Card
+                            className="shadow-lg border-none"
+                        >
                             <CardHeader>
                                 <CardTitle className="flex items-center">
                                     <HeartPulse className="h-5 w-5 mr-2 text-[hsl(var(--primary))]"/>
@@ -405,7 +407,7 @@ export default function ModelDescriptionPage() {
                     </TabsContent>
 
                     <TabsContent value="tumor" className="space-y-6">
-                        <Card>
+                        <Card className="shadow-lg border-none">
                             <CardHeader>
                                 <CardTitle className="flex items-center">
                                     <Dna className="h-5 w-5 mr-2 text-[hsl(var(--destructive))]"/>
@@ -427,7 +429,7 @@ export default function ModelDescriptionPage() {
                     </TabsContent>
 
                     <TabsContent value="immune" className="space-y-6">
-                        <Card>
+                        <Card className="shadow-lg border-none">
                             <CardHeader>
                                 <CardTitle className="flex items-center">
                                     <Brain className="h-5 w-5 mr-2 text-[hsl(var(--secondary))]"/>
