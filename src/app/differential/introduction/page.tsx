@@ -123,7 +123,7 @@ function ResearchApproachSection() {
                         <div className="aspect-square bg-card rounded-xl shadow-xl overflow-hidden relative">
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <Image
-                                    src="/images/tumor-cells.jpg"
+                                    src="/images/creative-pic.png"
                                     width={1200}
                                     height={600}
                                     alt="Model Diagram"
