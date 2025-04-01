@@ -27,8 +27,10 @@ export function ModelEquation({ equation, parameters, terms }: ModelEquationProp
 
     useEffect(() => {
         // Ensure MathJax re-renders the equations
-        if (window.MathJax && window.MathJax.typeset) {
-            window.MathJax.typeset()
+        if (window.MathJax && "typeset" in window.MathJax && window.MathJax.typeset) {
+            if ("typeset" in window.MathJax) {
+                window.MathJax.typeset()
+            }
         }
     }, [equation, activeTermIndex]) // Re-run when equation or active term changes
 

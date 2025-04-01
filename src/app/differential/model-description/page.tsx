@@ -10,11 +10,28 @@ import { VideoPlayer } from "@/components/model/video-player"
 import { ModelEquation } from "@/components/model/model-equation"
 import { ModelDiagram } from "@/components/model/model-diagram"
 import { BiologicalJustification } from "@/components/model/biological-justification"
+// import type { MathJaxObject } from "mathjax";
+
+// Define a more specific type for MathJax instead of using 'any'
+interface MathJaxConfig {
+    tex: {
+        inlineMath: string[][]
+        displayMath: string[][]
+    }
+    svg: {
+        fontCache: string
+    }
+}
+
+interface MathJaxObject {
+    typeset?: () => void
+    [key: string]: unknown
+}
 
 // Define types for MathJax
 declare global {
     interface Window {
-        MathJax: any
+        MathJax: MathJaxObject | MathJaxConfig
     }
 }
 
@@ -28,7 +45,11 @@ export default function ModelDescriptionPage() {
 
             if (window.MathJax) {
                 // If MathJax is already loaded, just typeset the page
-                window.MathJax.typeset && window.MathJax.typeset()
+
+                if ("typeset" in window.MathJax) {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                    window.MathJax.typeset && window.MathJax.typeset()
+                }
             } else {
                 // If MathJax isn't loaded yet, load it
                 const script = document.createElement("script")
@@ -46,7 +67,10 @@ export default function ModelDescriptionPage() {
                         },
                     }
                     // Typeset the page
-                    window.MathJax.typeset && window.MathJax.typeset()
+                    if ("typeset" in window.MathJax) {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                        window.MathJax.typeset && window.MathJax.typeset()
+                    }
                 }
                 document.head.appendChild(script)
             }
@@ -61,8 +85,10 @@ export default function ModelDescriptionPage() {
         const handleRouteChange = () => {
             // Re-render MathJax when returning to this page
             setTimeout(() => {
-                if (typeof window !== "undefined" && window.MathJax && window.MathJax.typeset) {
-                    window.MathJax.typeset()
+                if (typeof window !== "undefined" && window.MathJax && "typeset" in window.MathJax && window.MathJax.typeset) {
+                    if ("typeset" in window.MathJax) {
+                        window.MathJax.typeset()
+                    }
                 }
             }, 100)
         }
@@ -82,7 +108,7 @@ export default function ModelDescriptionPage() {
     // Add an additional effect to re-render MathJax when the component updates
     useEffect(() => {
         // Re-render MathJax whenever the component updates
-        if (window.MathJax && window.MathJax.typeset) {
+        if (window.MathJax && "typeset" in window.MathJax && window.MathJax.typeset) {
             window.MathJax.typeset()
         }
     })

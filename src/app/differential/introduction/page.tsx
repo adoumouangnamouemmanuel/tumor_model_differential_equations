@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { ArrowRight, Brain, Dna, HeartPulse } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function IntroductionPage() {
     const [mounted, setMounted] = useState(false)
@@ -121,7 +122,7 @@ function ResearchApproachSection() {
                     >
                         <div className="aspect-square bg-card rounded-xl shadow-xl border border-border overflow-hidden relative">
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <img
+                                <Image
                                     src="/images/tumor-cells.jpg"
                                     alt="Model Diagram"
                                     className="w-full h-full object-cover"

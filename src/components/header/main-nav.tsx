@@ -306,22 +306,16 @@ function MatrixItem({
 const ListItem = React.forwardRef<
     React.ElementRef<"a">,
     React.ComponentPropsWithoutRef<"a"> & { icon?: React.ReactNode }
->(({ className, title, children, icon, ...props }, ref) => {
+>(({ className, title, children, icon }, ref) => {
     return (
         <li>
             <NavigationMenuLink asChild>
-                <motion.a
+                <a
                     ref={ref}
                     className={cn(
                         "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 dark:hover:bg-slate-800 focus:bg-accent focus:text-accent-foreground cursor-pointer text-gray-800 dark:text-gray-200",
                         className,
                     )}
-                    whileHover={{
-                        scale: 1.05,
-                        backgroundColor: "rgba(243, 244, 246, 0.1)",
-                    }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                    {...props}
                 >
                     <div className="flex items-center gap-2 text-sm font-medium leading-none">
                         <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
@@ -330,7 +324,7 @@ const ListItem = React.forwardRef<
                         {title}
                     </div>
                     <p className="line-clamp-2 text-sm leading-snug text-gray-600 dark:text-gray-400">{children}</p>
-                </motion.a>
+                </a>
             </NavigationMenuLink>
         </li>
     )

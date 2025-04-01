@@ -16,8 +16,8 @@ export function ResearchQuote({ quote, author }: ResearchQuoteProps) {
             transition={{ duration: 0.5 }}
             viewport={{ once: true, margin: "-50px" }}
         >
-            <div className="absolute top-4 left-4 text-6xl text-blue-300 dark:text-blue-700 opacity-50">"</div>
-            <div className="absolute bottom-4 right-4 text-6xl text-blue-300 dark:text-blue-700 opacity-50">"</div>
+            <div className="absolute top-4 left-4 text-6xl text-blue-300 dark:text-blue-700 opacity-50">&ldquo;</div>
+            <div className="absolute bottom-4 right-4 text-6xl text-blue-300 dark:text-blue-700 opacity-50">&rdquo;</div>
 
             <div className="relative z-10">
                 <p className="text-xl md:text-2xl text-gray-800 dark:text-gray-200 italic text-center mb-6">{quote}</p>

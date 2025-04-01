@@ -26,7 +26,7 @@ export function Cell({
                          speed = 1,
                          opacity = 1,
                          hasNucleus = true,
-                         id = "cell",
+                         // id = "cell",
                      }: CellProps) {
     const colors = {
         normal: "#f8e0c0", // beige/cream

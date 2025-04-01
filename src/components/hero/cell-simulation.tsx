@@ -27,11 +27,11 @@ interface Cell {
 export function CellSimulation() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const cellsRef = useRef<Cell[]>([])
-    // @ts-ignore
+    // @ts-expect-error: This is necessary because TypeScript incorrectly infers the type here
     const animationRef = useRef<number>()
     const isInitializedRef = useRef(false)
     const mouseRef = useRef({ x: 0, y: 0, active: false })
-    const { theme, resolvedTheme } = useTheme()
+    const { resolvedTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
@@ -73,6 +73,7 @@ export function CellSimulation() {
     }
 
     // Initialize cells
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const initializeCells = (width: number, height: number) => {
         const initialCells: Cell[] = []
 
@@ -209,6 +210,7 @@ export function CellSimulation() {
     }
 
     // Animation loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const animate = () => {
         const canvas = canvasRef.current
         if (!canvas) return
@@ -473,7 +475,7 @@ export function CellSimulation() {
             canvas.removeEventListener("touchmove", handleTouchMove)
             canvas.removeEventListener("touchend", handleTouchEnd)
         }
-    }, [resolvedTheme])
+    }, [resolvedTheme, initializeCells, animate])
 
     // Fix hydration issue by using a neutral background initially, then applying theme-specific styles after mounting
     const bgClass = mounted
