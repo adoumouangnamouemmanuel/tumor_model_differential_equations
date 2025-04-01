@@ -4,10 +4,36 @@ import { motion } from "framer-motion"
 import { MainNav } from "@/components/header/main-nav"
 import { MobileNav } from "@/components/header/mobile-nav"
 import { Sparkles } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export function SiteHeader() {
+    // Add state to track scroll position
+    const [scrolled, setScrolled] = useState(false)
+
+    // Add scroll event listener
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 10)
+        }
+
+        // Add event listener
+        window.addEventListener("scroll", handleScroll)
+
+        // Initial check
+        handleScroll()
+
+        // Clean up
+        return () => window.removeEventListener("scroll", handleScroll)
+    }, [])
+
     return (
-        <header className="sticky top-0 z-40 w-full border-b border-gray-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-slate-900/80">
+        <header
+            className={`fixed top-0 left-0 right-0 z-50 w-full border-b transition-all duration-200 ${
+                scrolled
+                    ? "bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-sm"
+                    : "bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm"
+            } border-gray-200 dark:border-slate-800`}
+        >
             <div className="container flex h-16 items-center px-6">
                 <motion.div
                     className="mr-8 flex"
