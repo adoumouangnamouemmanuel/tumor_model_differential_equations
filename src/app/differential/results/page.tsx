@@ -335,7 +335,7 @@ export default function ResultsPage() {
                 transition={{ duration: 0.8, delay: 0.8 }}
                 className="flex justify-between"
             >
-                <Button variant="outline" className="flex items-center gap-2" asChild>
+                <Button className="flex items-center gap-2 " asChild>
                     <Link href="/differential/figure-replication">
                         <ArrowLeft className="h-4 w-4" /> Figure Replication
                     </Link>
