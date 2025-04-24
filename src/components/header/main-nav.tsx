@@ -13,7 +13,7 @@ import {
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
-import { Home, BookOpen, Code, Video, Mail, Info, FileText, LineChart, PenTool, BarChart3, Diff, BarChart, Brain, FlaskRoundIcon as Flask, ImageIcon } from 'lucide-react'
+import { Home, BookOpen, Code, Video, Mail, Info, FileText, LineChart, PenTool, BarChart3, Diff, BarChart, Brain, ImageIcon } from 'lucide-react'
 
 export function MainNav() {
     return (
@@ -54,7 +54,7 @@ export function MainNav() {
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <motion.div
-                            className="w-[550px] p-4 bg-white dark:bg-slate-900 rounded-md shadow-lg border border-gray-200 dark:border-slate-700"
+                            className="w-[550px] p-4 bg-white dark:bg-slate-900 rounded-md shadow-lg"
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ type: "spring", stiffness: 400, damping: 40 }}
@@ -84,59 +84,37 @@ export function MainNav() {
                                     </NavigationMenuLink>
                                 </div>
 
-                                {/* Row 2 - Matrix Layout */}
-                                <div className="grid grid-cols-2 gap-2 border-none">
+                                {/* Matrix Layout - 2x3 grid */}
+                                <div className="col-span-2 grid grid-cols-3 grid-rows-2 gap-2 border-none">
                                     <MatrixItem
                                         href="/differential/introduction"
                                         title="Introduction"
                                         icon={<BookOpen className="h-4 w-4 text-blue-500" />}
-                                        description="Overview of differential equations in our research."
                                     />
                                     <MatrixItem
                                         href="/differential/model-description"
                                         title="Model Description"
                                         icon={<FileText className="h-4 w-4 text-blue-500" />}
-                                        description="Detailed explanation of the equations and their derivation."
                                     />
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-2">
                                     <MatrixItem
                                         href="/differential/figure-replication"
                                         title="Figure Replication"
                                         icon={<ImageIcon className="h-4 w-4 text-blue-500" />}
-                                        description="Comparison of original paper figures with our MATLAB replications."
                                     />
                                     <MatrixItem
                                         href="/differential/results"
                                         title="Study Results"
                                         icon={<LineChart className="h-4 w-4 text-blue-500" />}
-                                        description="Discussion of the results from our differential equations model."
                                     />
-                                </div>
-
-                                {/* Additional items in the matrix */}
-                                <div className="grid grid-cols-2 gap-2">
                                     <MatrixItem
                                         href="/differential/modifications"
                                         title="Model Modifications"
                                         icon={<PenTool className="h-4 w-4 text-blue-500" />}
-                                        description="Our modifications to the existing model and implementation."
                                     />
                                     <MatrixItem
                                         href="/differential/theory"
-                                        title="Theoretical Background"
+                                        title="Modified Results"
                                         icon={<Brain className="h-4 w-4 text-blue-500" />}
-                                        description="Mathematical theory behind our differential equations."
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-2">
-                                    <MatrixItem
-                                        href="/differential/applications"
-                                        title="Applications"
-                                        icon={<Flask className="h-4 w-4 text-blue-500" />}
-                                        description="Real-world applications of our mathematical models."
                                     />
                                 </div>
                             </div>
@@ -157,55 +135,56 @@ export function MainNav() {
                         </div>
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className="border-none">
-                        <motion.ul
-                            className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] bg-white dark:bg-slate-900 rounded-md shadow-lg"
+                        <motion.div
+                            className="w-[550px] p-4 bg-white dark:bg-slate-900 rounded-md shadow-lg"
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ type: "spring", stiffness: 400, damping: 40 }}
                         >
-                            <li className="row-span-3">
-                                <NavigationMenuLink asChild>
-                                    <motion.a
-                                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-700 to-blue-900 p-6 no-underline outline-none cursor-pointer overflow-hidden relative"
-                                        href="/applied-programming/code-explanation"
-                                        whileHover={{ scale: 1.02 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                                    >
-                                        <motion.div
-                                            className="absolute inset-0 bg-blue-400 opacity-20"
-                                            initial={{ x: "-100%" }}
-                                            whileHover={{ x: "100%" }}
-                                            transition={{ duration: 1.5 }}
-                                        />
-                                        <div className="mt-4 mb-2 text-lg font-medium text-white">Code Explanation</div>
-                                        <p className="text-sm leading-tight text-white/90">
-                                            Numerical methods and code implementation for solving and analyzing our ODE model.
-                                        </p>
-                                    </motion.a>
-                                </NavigationMenuLink>
-                            </li>
-                            <ListItem
-                                href="/applied-programming/solvers"
-                                title="ODE Solvers"
-                                icon={<Diff className="h-4 w-4 text-blue-500" />}
-                            >
-                                Comparison of different numerical solvers for approximating solutions.
-                            </ListItem>
-                            <ListItem
-                                href="/applied-programming/error-analysis"
-                                title="Error Analysis"
-                                icon={<BarChart3 className="h-4 w-4 text-blue-500" />}
-                            >
-                                Analysis of errors between different numerical approximations.
-                            </ListItem>
-                            <ListItem
-                                href="/applied-programming/visualizations"
-                                title="Visualizations"
-                                icon={<BarChart className="h-4 w-4 text-blue-500" />}
-                            >
-                                Interactive figures, animations, and model outputs.
-                            </ListItem>
-                        </motion.ul>
+                            <div className="grid grid-cols-1 gap-4">
+                                {/* Row 1 */}
+                                <div>
+                                    <NavigationMenuLink asChild>
+                                        <motion.a
+                                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-700 to-blue-900 p-6 no-underline outline-none cursor-pointer overflow-hidden relative"
+                                            href="/applied-programming/code-explanation"
+                                            whileHover={{ scale: 1.02 }}
+                                            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                                        >
+                                            <motion.div
+                                                className="absolute inset-0 bg-blue-400 opacity-20"
+                                                initial={{ x: "-100%" }}
+                                                whileHover={{ x: "100%" }}
+                                                transition={{ duration: 1.5 }}
+                                            />
+                                            <div className="mt-4 mb-2 text-lg font-medium text-white">Code Explanation</div>
+                                            <p className="text-sm leading-tight text-white/90">
+                                                Numerical methods and code implementation for solving and analyzing our ODE model.
+                                            </p>
+                                        </motion.a>
+                                    </NavigationMenuLink>
+                                </div>
+
+                                {/* Matrix Layout - 1x3 grid */}
+                                <div className="grid grid-cols-3 gap-2 border-none">
+                                    <MatrixItem
+                                        href="/applied-programming/solvers"
+                                        title="ODE Solvers"
+                                        icon={<Diff className="h-4 w-4 text-blue-500" />}
+                                    />
+                                    <MatrixItem
+                                        href="/applied-programming/error-analysis"
+                                        title="Error Analysis"
+                                        icon={<BarChart3 className="h-4 w-4 text-blue-500" />}
+                                    />
+                                    <MatrixItem
+                                        href="/applied-programming/visualizations"
+                                        title="Visualizations"
+                                        icon={<BarChart className="h-4 w-4 text-blue-500" />}
+                                    />
+                                </div>
+                            </div>
+                        </motion.div>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
 
@@ -267,12 +246,10 @@ function MatrixItem({
                         href,
                         title,
                         icon,
-                        description,
                     }: {
     href: string
     title: string
     icon: React.ReactNode
-    description: string
 }) {
     return (
         <NavigationMenuLink asChild className="border-none">
@@ -291,7 +268,6 @@ function MatrixItem({
                     </motion.div>
                     {title}
                 </div>
-                <p className="line-clamp-2 text-xs leading-snug text-gray-600 dark:text-gray-400">{description}</p>
             </motion.a>
         </NavigationMenuLink>
     )
@@ -305,22 +281,20 @@ const ListItem = React.forwardRef<
         <NavigationMenuLink asChild>
             <a
                 ref={ref}
-                href={href} // ✅ Ensure href is passed
+                href={href}
                 className={cn(
                     "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 dark:hover:bg-slate-800 focus:bg-accent focus:text-accent-foreground cursor-pointer text-gray-800 dark:text-gray-200",
-                    className
+                    className,
                 )}
                 {...props}
             >
                 <div className="flex items-center gap-2 text-sm font-medium leading-none">
                     {icon} {title}
                 </div>
-                <p className="line-clamp-2 text-xs leading-snug text-gray-600 dark:text-gray-400">
-                    {children}
-                </p>
+                <p className="line-clamp-2 text-xs leading-snug text-gray-600 dark:text-gray-400">{children}</p>
             </a>
         </NavigationMenuLink>
-    );
-});
+    )
+})
 
 ListItem.displayName = "ListItem"
