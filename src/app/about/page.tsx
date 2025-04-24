@@ -127,7 +127,7 @@ const teamMembers: TeamMember[] = [
         name: "Chioma Divyan",
         role: "Computer Engineer",
         specialty: "Hardware",
-        image: "/images/fatchima1.jpeg",
+        image: "/images/chioma.jpg",
         social: {
             github: "https://github.com",
             linkedin: "https://www.linkedin.com/in/gift-chioma-chukwuemeka-013848317/",
