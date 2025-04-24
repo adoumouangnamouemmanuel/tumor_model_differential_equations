@@ -9,7 +9,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-    title: "MATH221 & CE122: Differential Equations & Numerical Methods",
+    title: "Diverse Buzima: Differential Equations & Numerical Methods",
     description: "Study of the application of ODE models and numerical methods in investigating a real-world problem",
 }
 

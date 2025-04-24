@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { motion } from "framer-motion"
-import { ArrowRight, ArrowLeft, LineChart, Pill, Salad } from "lucide-react"
+import { ArrowLeft, LineChart, Pill, Salad } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -274,12 +274,6 @@ export default function ModifiedResultsPage() {
                 <Button variant="outline" className="flex items-center gap-2" asChild>
                     <Link href="/differential/modifications">
                         <ArrowLeft className="h-4 w-4" /> Model Modifications
-                    </Link>
-                </Button>
-
-                <Button className="flex items-center gap-2" asChild>
-                    <Link href="/differential/applications">
-                        Applications <ArrowRight className="h-4 w-4" />
                     </Link>
                 </Button>
             </motion.div>
