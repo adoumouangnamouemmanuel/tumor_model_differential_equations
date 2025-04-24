@@ -144,7 +144,7 @@ export function RelationshipDiagram() {
                 </motion.div>
 
                 <motion.div
-                    className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-800 p-3 rounded-full shadow-lg"
+                    className="absolute right-30 top-1/2 translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-800 p-3 rounded-full shadow-lg"
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, delay: 0.5 }}
                 >
@@ -166,7 +166,7 @@ export function RelationshipDiagram() {
                 </motion.div>
 
                 <motion.div
-                    className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-800 p-3 rounded-full shadow-lg"
+                    className="absolute left-30 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-800 p-3 rounded-full shadow-lg"
                     animate={{ x: [0, -5, 0] }}
                     transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, delay: 1.5 }}
                 >

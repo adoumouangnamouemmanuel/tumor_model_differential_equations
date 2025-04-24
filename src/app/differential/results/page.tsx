@@ -1,195 +1,352 @@
 "use client"
-import { motion, useScroll, useTransform } from "framer-motion"
-import {
-    Activity,
-    ArrowRight,
-    Brain,
-    ChevronDown,
-    Dna,
-    FlaskRoundIcon as Flask,
-    Pizza,
-    Microscope,
-    Lightbulb,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { ResultsHero } from "@/components/results/results-hero"
-import { KeyFinding } from "@/components/results/key-finding"
-import { RelationshipDiagram } from "@/components/results/relationship-diagram"
-import { FutureDirections } from "@/components/results/future-directions"
-import { ResearchQuote } from "@/components/results/research-quote"
 
-export default function StudyResultsPage() {
-    const { scrollYProgress } = useScroll()
-    const opacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
-    const y = useTransform(scrollYProgress, [0, 0.1], [0, -50])
+import { useEffect } from "react"
+import { motion } from "framer-motion"
+import { ArrowRight, ArrowLeft, Brain, Dna, HeartPulse, Pizza, LineChart, BarChart3 } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import Image from "next/image"
+import { RelationshipDiagram } from "@/components/results/relationship-diagram"
+
+// Define a more specific type for MathJax instead of using 'any'
+interface MathJaxConfig {
+    tex: {
+        inlineMath: string[][]
+        displayMath: string[][]
+    }
+    svg: {
+        fontCache: string
+    }
+}
+
+interface MathJaxObject {
+    typeset?: () => void
+    [key: string]: unknown
+}
+
+// Define types for MathJax
+declare global {
+    interface Window {
+        MathJax: MathJaxObject | MathJaxConfig
+    }
+}
+
+export default function ResultsPage() {
+    // Initialize MathJax when the component mounts
+    useEffect(() => {
+        // Function to initialize or re-render MathJax
+        const initMathJax = () => {
+            // Only run on client side
+            if (typeof window === "undefined") return
+
+            if (window.MathJax) {
+                // If MathJax is already loaded, just typeset the page
+                if ("typeset" in window.MathJax) {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                    window.MathJax.typeset && window.MathJax.typeset()
+                }
+            } else {
+                // If MathJax isn't loaded yet, load it
+                const script = document.createElement("script")
+                script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+                script.async = true
+                script.onload = () => {
+                    // Configure MathJax
+                    window.MathJax = {
+                        tex: {
+                            inlineMath: [["$$", "$$"]],
+                            displayMath: [["\\[", "\\]"]],
+                        },
+                        svg: {
+                            fontCache: "global",
+                        },
+                    }
+                    // Typeset the page
+                    if ("typeset" in window.MathJax) {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                        window.MathJax.typeset && window.MathJax.typeset()
+                    }
+                }
+                document.head.appendChild(script)
+            }
+        }
+
+        // Initialize MathJax with a slight delay to avoid hydration issues
+        const timer = setTimeout(() => {
+            initMathJax()
+        }, 100)
+
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [])
 
     return (
-        <div className="relative">
+        <div className="container max-w-6xl mx-auto py-12 px-4 md:px-6">
             {/* Hero Section */}
-            <motion.div className="relative h-[60vh] flex items-center justify-center overflow-hidden" style={{ opacity, y }}>
-                <ResultsHero />
+            <motion.div
+                className="mb-12 text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+            >
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 dark:from-blue-400 dark:to-blue-600 font-serif">
+                    Study Results
+                </h1>
+                <p className="text-lg text-[hsl(var(--muted-foreground))] max-w-3xl mx-auto">
+                    Key findings and implications from the Normal-Tumor-Immune-Unhealthy Diet Model
+                </p>
             </motion.div>
 
-            {/* Main Content */}
-            <div className="bg-gradient-to-b from-white to-blue-50 dark:from-slate-800 dark:to-slate-900 pt-16 pb-24">
-                <div className="container mx-auto px-4">
-                    {/* Introduction */}
-                    <motion.div
-                        className="max-w-4xl mx-auto mb-16"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                    >
-                        <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Study Overview</h2>
-                        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-                            The Nonlinear Tumor-Immune Unstable Hybrid Dynamical Model (NTIUNHDM) focuses on the role of the immune
-                            system in preventing tumor growth and how a bad diet undermines this body system. Our research
-                            demonstrates the critical relationship between immune function, dietary choices, and cancer progression.
-                        </p>
+            {/* Key Findings Section */}
+            <motion.section
+                className="mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+            >
+                <h2 className="text-3xl font-bold mb-6 font-serif">Key Findings</h2>
 
-                        <div className="flex justify-center mt-12 mb-8">
-                            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}>
-                                <ChevronDown className="h-8 w-8 text-blue-500 dark:text-blue-400" />
-                            </motion.div>
-                        </div>
-                    </motion.div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <Card className="border-none shadow-lg bg-white dark:bg-slate-800">
+                        <CardContent className="p-6">
+                            <div className="flex items-center gap-4 mb-3">
+                                <div className="p-2 rounded-full bg-blue-50 dark:bg-blue-900/20">
+                                    <Brain className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                                </div>
+                                <h3 className="text-xl font-bold font-serif">Immune System Vulnerability</h3>
+                            </div>
+                            <p className="font-light">
+                                Poor diet compromises immune function, allowing tumor cells to establish and grow rapidly beyond a
+                                critical threshold.
+                            </p>
+                        </CardContent>
+                    </Card>
 
-                    {/* Key Findings Section */}
-                    <motion.section
-                        className="max-w-6xl mx-auto mb-20"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                    >
-                        <h2 className="text-3xl font-bold mb-10 text-center text-gray-900 dark:text-white">Key Findings</h2>
+                    <Card className="border-none shadow-lg bg-white dark:bg-slate-800">
+                        <CardContent className="p-6">
+                            <div className="flex items-center gap-4 mb-3">
+                                <div className="p-2 rounded-full bg-purple-50 dark:bg-purple-900/20">
+                                    <Dna className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                                </div>
+                                <h3 className="text-xl font-bold font-serif">Tumor Growth Dynamics</h3>
+                            </div>
+                            <p className="font-light">
+                                Tumors show initial lag phase followed by exponential growth, creating a critical intervention window.
+                            </p>
+                        </CardContent>
+                    </Card>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <KeyFinding
-                                icon={<Brain className="h-6 w-6" />}
-                                title="Immune System Role"
-                                description="When immune cell function is weakened either due to bad diet, heredity, or environmental factors, tumor cells multiply uncontrolled. A healthy immune system can suppress or kill off tumor cells, halting or preventing cancer growth."
-                                color="blue"
-                            />
+                    <Card className="border-none shadow-lg bg-white dark:bg-slate-800">
+                        <CardContent className="p-6">
+                            <div className="flex items-center gap-4 mb-3">
+                                <div className="p-2 rounded-full bg-green-50 dark:bg-green-900/20">
+                                    <Pizza className="h-6 w-6 text-green-600 dark:text-green-400" />
+                                </div>
+                                <h3 className="text-xl font-bold font-serif">Dietary Impact</h3>
+                            </div>
+                            <p className="font-light">
+                                Diet directly affects immune efficiency, with quantifiable correlations to tumor establishment risk.
+                            </p>
+                        </CardContent>
+                    </Card>
 
-                            <KeyFinding
-                                icon={<Dna className="h-6 w-6" />}
-                                title="Cellular Competition"
-                                description="Normal and tumor cells compete for resources. As tumor cells increase, they outcompete normal cells, causing their reduction. The immune system, when in active condition, plays a counter to this by engaging the tumor cells."
-                                color="purple"
-                            />
-
-                            <KeyFinding
-                                icon={<Pizza className="h-6 w-6" />}
-                                title="Dietary Influence"
-                                description="Immune efficiency is influenced by diet, where malnutrition or excessive consumption of improper foods results in immune depletion that lowers its response to tumor increase."
-                                color="green"
-                            />
-
-                            <KeyFinding
-                                icon={<Activity className="h-6 w-6" />}
-                                title="Saturation Effects"
-                                description="Immune responses undergo a saturation effect; beyond a limit, increased tumor or normal cell contact does not significantly elevate immune activation. This implies that stimulation of immune function is beneficial, but excess stimulation could lead to inefficacy."
-                                color="orange"
-                            />
-                        </div>
-                    </motion.section>
-
-                    {/* Relationship Diagram */}
-                    <motion.section
-                        className="max-w-5xl mx-auto mb-20"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                    >
-                        <h2 className="text-3xl font-bold mb-10 text-center text-gray-900 dark:text-white">System Interactions</h2>
-
-                        <Card className="p-6 border-none">
-                            <RelationshipDiagram />
-                        </Card>
-                    </motion.section>
-
-                    {/* Research Quote */}
-                    <motion.section
-                        className="max-w-4xl mx-auto mb-20"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                    >
-                        <ResearchQuote
-                            quote="These findings reaffirm the importance of an equilibrium diet and lifestyle to facilitate immune function as a cancer preventive measure. While medical treatments are essential, lifestyle modifications can amplify the body's natural resistance to cancer."
-                            author="Research Team"
-                        />
-                    </motion.section>
-
-                    {/* Conclusion */}
-                    <motion.section
-                        className="max-w-4xl mx-auto mb-20"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                    >
-                        <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Conclusion</h2>
-                        <p className="text-lg text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
-                            The study confirms that a compromised immune system, either from external or internal stimuli, offers the
-                            environment under which tumors thrive. Our mathematical model dynamically presents the relationships
-                            between diet, immunity, and cancer cell growth, providing a foundation for future experimental studies to
-                            clinically validate these findings.
-                        </p>
-                        <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                            Strengthening immune health by making correct lifestyle decisions is a fundamental method of cancer
-                            prevention and control. The balance between normal cells, tumor cells, and immune function is delicate,
-                            and maintaining this balance through proper diet and lifestyle choices can significantly impact cancer
-                            outcomes.
-                        </p>
-                    </motion.section>
-
-                    {/* Future Directions */}
-                    <motion.section
-                        className="max-w-5xl mx-auto"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                    >
-                        <h2 className="text-3xl font-bold mb-10 text-center text-gray-900 dark:text-white">
-                            Future Research Directions
-                        </h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <FutureDirections
-                                icon={<Microscope className="h-6 w-6" />}
-                                title="Specific Dietary Elements"
-                                description="Investigate specific elements of diet that have direct impacts on immune efficiency and cancer suppression."
-                            />
-
-                            <FutureDirections
-                                icon={<Flask className="h-6 w-6" />}
-                                title="Clinical Validation"
-                                description="Conduct experimental studies to clinically validate the findings from our mathematical model."
-                            />
-
-                            <FutureDirections
-                                icon={<Lightbulb className="h-6 w-6" />}
-                                title="Preventive Strategies"
-                                description="Develop targeted preventive strategies based on optimizing immune function through lifestyle interventions."
-                            />
-                        </div>
-
-                        <div className="flex justify-center mt-12">
-                            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 flex items-center gap-2">
-                                <span>Explore Our Research Methods</span>
-                                <ArrowRight className="h-4 w-4" />
-                            </Button>
-                        </div>
-                    </motion.section>
+                    <Card className="border-none shadow-lg bg-white dark:bg-slate-800">
+                        <CardContent className="p-6">
+                            <div className="flex items-center gap-4 mb-3">
+                                <div className="p-2 rounded-full bg-orange-50 dark:bg-orange-900/20">
+                                    <HeartPulse className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                                </div>
+                                <h3 className="text-xl font-bold font-serif">Normal Cell Resilience</h3>
+                            </div>
+                            <p className="font-light">
+                                Healthy cells maintain stability when supported by proper immune function, even with some tumor
+                                presence.
+                            </p>
+                        </CardContent>
+                    </Card>
                 </div>
-            </div>
+            </motion.section>
+
+            {/* Visualization Section */}
+            <motion.section
+                className="mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+            >
+                <h2 className="text-3xl font-bold mb-6 font-serif">System Dynamics</h2>
+
+                <Tabs defaultValue="timeseries" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2 mb-6">
+                        <TabsTrigger value="timeseries" className="cursor-pointer">
+                            Time Series Analysis
+                        </TabsTrigger>
+                        <TabsTrigger value="relationships" className="cursor-pointer">
+                            Component Relationships
+                        </TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="timeseries" className="space-y-6">
+                        <Card className="border-none shadow-lg">
+                            <CardHeader>
+                                <CardTitle className="flex items-center font-serif">
+                                    <LineChart className="h-5 w-5 mr-2 text-[hsl(var(--primary))]" />
+                                    Cell Population Dynamics Over Time
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="aspect-video bg-muted rounded-lg overflow-hidden relative mb-6">
+                                    <Image
+                                        src="/images/fig5_reproduction.png"
+                                        alt="Cell population dynamics"
+                                        width={800}
+                                        height={400}
+                                        className="w-full h-full object-contain"
+                                    />
+                                </div>
+
+                                <div className="space-y-4">
+                                    <p className="font-light">
+                                        The time series analysis reveals three distinct phases in the system dynamics:
+                                    </p>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                                            <h3 className="font-medium mb-2">Initial Phase (Days 0-5)</h3>
+                                            <p className="text-sm font-light">
+                                                Stable coexistence of normal cells and immune cells with minimal tumor presence
+                                            </p>
+                                        </div>
+
+                                        <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
+                                            <h3 className="font-medium mb-2">Transition Phase (Days 5-15)</h3>
+                                            <p className="text-sm font-light">
+                                                Rapid tumor growth accompanied by declining normal cell population and immune response
+                                            </p>
+                                        </div>
+
+                                        <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                                            <h3 className="font-medium mb-2">Final Phase (Days 15-30)</h3>
+                                            <p className="text-sm font-light">
+                                                New equilibrium with dominant tumor population, depleted normal cells, and exhausted immune
+                                                response
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    <TabsContent value="relationships" className="space-y-6">
+                        <Card className="border-none shadow-lg">
+                            <CardHeader>
+                                <CardTitle className="flex items-center font-serif">
+                                    <BarChart3 className="h-5 w-5 mr-2 text-[hsl(var(--primary))]" />
+                                    Component Interaction Analysis
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="aspect-video bg-muted rounded-lg overflow-hidden relative">
+                                    <RelationshipDiagram />
+                                </div>
+
+                                <div className="mt-6 space-y-4">
+                                    <p className="font-light">
+                                        The relationship diagram illustrates the complex interactions between diet quality, immune function,
+                                        tumor growth, and normal cell health. Key relationships include:
+                                    </p>
+
+                                    <ul className="list-disc pl-6 space-y-2 font-light">
+                                        <li>Positive influence of healthy diet on immune function</li>
+                                        <li>Negative impact of tumor cells on normal cell populations</li>
+                                        <li>Suppressive effect of properly functioning immune cells on tumor growth</li>
+                                        <li>Protective relationship between immune cells and normal cells</li>
+                                    </ul>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                </Tabs>
+            </motion.section>
+
+            {/* Implications Section */}
+            <motion.section
+                className="mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+            >
+                <h2 className="text-3xl font-bold mb-6 font-serif">Research Implications</h2>
+
+                <Card className="border-none shadow-lg">
+                    <CardContent className="p-6">
+                        <div className="space-y-6">
+                            <p className="font-light">
+                                Our findings have several important implications for cancer prevention and treatment strategies:
+                            </p>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6 rounded-lg">
+                                    <h3 className="text-lg font-semibold mb-3 font-serif">Prevention Strategies</h3>
+                                    <ul className="list-disc pl-6 space-y-2 font-light">
+                                        <li>Dietary interventions should be considered a fundamental component of cancer prevention</li>
+                                        <li>Early intervention during the initial phase of tumor development is critical</li>
+                                        <li>
+                                            Immune-boosting strategies may be most effective when implemented before significant tumor
+                                            establishment
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6 rounded-lg">
+                                    <h3 className="text-lg font-semibold mb-3 font-serif">Treatment Approaches</h3>
+                                    <ul className="list-disc pl-6 space-y-2 font-light">
+                                        <li>
+                                            Combined approaches targeting both tumor cells and supporting immune function show the most
+                                            promise
+                                        </li>
+                                        <li>Dietary modifications should be integrated with conventional cancer treatments</li>
+                                        <li>Personalized approaches based on individual immune function may improve outcomes</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className="bg-muted p-6 rounded-lg">
+                                <h3 className="text-lg font-semibold mb-3 font-serif">Future Research Directions</h3>
+                                <p className="font-light">
+                                    This model provides a foundation for future research exploring specific dietary components and their
+                                    mechanisms of action on immune function and tumor development. Clinical studies are needed to validate
+                                    these mathematical predictions and develop targeted interventions.
+                                </p>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            </motion.section>
+
+            {/* Navigation Section */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="flex justify-between"
+            >
+                <Button variant="outline" className="flex items-center gap-2" asChild>
+                    <Link href="/differential/figure-replication">
+                        <ArrowLeft className="h-4 w-4" /> Figure Replication
+                    </Link>
+                </Button>
+
+                <Button className="flex items-center gap-2" asChild>
+                    <Link href="/differential/modifications">
+                        Model Modifications <ArrowRight className="h-4 w-4" />
+                    </Link>
+                </Button>
+            </motion.div>
         </div>
     )
 }
