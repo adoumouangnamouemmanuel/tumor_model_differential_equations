@@ -13,22 +13,7 @@ import {
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
-import {
-    Home,
-    BookOpen,
-    Code,
-    Video,
-    Mail,
-    Info,
-    FileText,
-    LineChart,
-    PenTool,
-    BarChart3,
-    Diff,
-    BarChart,
-    Brain,
-    FlaskRoundIcon as Flask,
-} from "lucide-react"
+import { Home, BookOpen, Code, Video, Mail, Info, FileText, LineChart, PenTool, BarChart3, Diff, BarChart, Brain, FlaskRoundIcon as Flask, ImageIcon } from 'lucide-react'
 
 export function MainNav() {
     return (
@@ -117,27 +102,36 @@ export function MainNav() {
 
                                 <div className="grid grid-cols-2 gap-2">
                                     <MatrixItem
+                                        href="/differential/figure-replication"
+                                        title="Figure Replication"
+                                        icon={<ImageIcon className="h-4 w-4 text-blue-500" />}
+                                        description="Comparison of original paper figures with our MATLAB replications."
+                                    />
+                                    <MatrixItem
                                         href="/differential/results"
                                         title="Study Results"
                                         icon={<LineChart className="h-4 w-4 text-blue-500" />}
                                         description="Discussion of the results from our differential equations model."
-                                    />
-                                    <MatrixItem
-                                        href="/differential/modifications"
-                                        title="Model Modifications"
-                                        icon={<PenTool className="h-4 w-4 text-blue-500" />}
-                                        description="Our modifications to the existing model and implementation."
                                     />
                                 </div>
 
                                 {/* Additional items in the matrix */}
                                 <div className="grid grid-cols-2 gap-2">
                                     <MatrixItem
+                                        href="/differential/modifications"
+                                        title="Model Modifications"
+                                        icon={<PenTool className="h-4 w-4 text-blue-500" />}
+                                        description="Our modifications to the existing model and implementation."
+                                    />
+                                    <MatrixItem
                                         href="/differential/theory"
                                         title="Theoretical Background"
                                         icon={<Brain className="h-4 w-4 text-blue-500" />}
                                         description="Mathematical theory behind our differential equations."
                                     />
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-2">
                                     <MatrixItem
                                         href="/differential/applications"
                                         title="Applications"

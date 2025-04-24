@@ -6,24 +6,7 @@ import { motion } from "framer-motion"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
-import {
-    Menu,
-    Home,
-    BookOpen,
-    Code,
-    Video,
-    Mail,
-    Info,
-    FileText,
-    LineChart,
-    PenTool,
-    BarChart3,
-    Diff,
-    BarChart,
-    ChevronRight,
-    Brain,
-    FlaskRoundIcon as Flask,
-} from "lucide-react"
+import { Menu, Home, BookOpen, Code, Video, Mail, Info, FileText, LineChart, PenTool, BarChart3, Diff, BarChart, ChevronRight, Brain, FlaskRoundIcon as Flask, ImageIcon } from 'lucide-react'
 
 export function MobileNav() {
     const [open, setOpen] = React.useState(false)
@@ -80,6 +63,13 @@ export function MobileNav() {
                                         onClick={() => setOpen(false)}
                                     >
                                         Model Description
+                                    </MobileNavLink>
+                                    <MobileNavLink
+                                        href="/differential/figure-replication"
+                                        icon={<ImageIcon className="h-4 w-4 text-blue-500" />}
+                                        onClick={() => setOpen(false)}
+                                    >
+                                        Figure Replication
                                     </MobileNavLink>
                                     <MobileNavLink
                                         href="/differential/results"
