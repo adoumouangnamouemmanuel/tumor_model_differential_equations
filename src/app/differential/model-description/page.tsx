@@ -67,6 +67,7 @@ export default function ModelDescriptionPage() {
                     }
                     // Typeset the page
                     if ("typeset" in window.MathJax) {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                         window.MathJax.typeset && window.MathJax.typeset()
                     }
                 }

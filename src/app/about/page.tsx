@@ -36,7 +36,7 @@ export default function AboutPage() {
                                 <div>
                                     <h2 className="text-3xl font-bold mb-4 font-serif">Passionate Innovators</h2>
                                     <p className="text-lg leading-relaxed font-light">
-                                        We're a team of 3 computer engineers and 1 mechatronics engineer united by our passion for applying
+                                        We&apos;re a team of 3 computer engineers and 1 mechatronics engineer united by our passion for applying
                                         mathematical models to solve complex biological problems.
                                     </p>
                                 </div>

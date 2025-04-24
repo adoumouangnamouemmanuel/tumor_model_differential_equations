@@ -446,7 +446,7 @@ export default function ModificationsPage() {
                         </CardHeader>
                         <CardContent>
                             <p className="font-light">
-                                Modern cancer immunotherapies enhance the body's natural immune response against cancer cells.
+                                Modern cancer immunotherapies enhance the body&apos;s natural immune response against cancer cells.
                                 Checkpoint inhibitors prevent tumor cells from evading immune detection, while CAR-T cell therapy
                                 provides engineered T cells that specifically target tumor antigens. Our model captures both the
                                 immediate boost to immune function and the gradual clearance of these agents.
