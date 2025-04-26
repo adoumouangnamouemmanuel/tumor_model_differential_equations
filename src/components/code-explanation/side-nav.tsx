@@ -17,6 +17,7 @@ interface NavItem {
 export function SideNav() {
     const [activeSection, setActiveSection] = useState("model-setup")
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const navItems: NavItem[] = [
         { id: "model-setup", title: "Model Setup", icon: <Settings className="h-4 w-4" /> },
         { id: "figure-reproduction", title: "Figure Reproduction", icon: <LineChart className="h-4 w-4" /> },
@@ -48,7 +49,7 @@ export function SideNav() {
                 if (element) observer.unobserve(element)
             })
         }
-    }, [])
+    }, [navItems])
 
     return (
         <motion.div

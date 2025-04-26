@@ -40,6 +40,7 @@ export default function CodeExplanationPage() {
 
             if (window.MathJax) {
                 if ("typeset" in window.MathJax) {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                     window.MathJax.typeset && window.MathJax.typeset()
                 }
             } else {
@@ -57,6 +58,7 @@ export default function CodeExplanationPage() {
                         },
                     }
                     if ("typeset" in window.MathJax) {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                         window.MathJax.typeset && window.MathJax.typeset()
                     }
                 }
