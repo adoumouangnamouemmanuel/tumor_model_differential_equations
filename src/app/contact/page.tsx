@@ -47,6 +47,7 @@ export default function ContactPage() {
                         message: "",
                     })
                     setFormSubmitted(false) // Reset to show form again
+                    setIsSubmitting(false)
                 }, 3000)
             } else {
                 // Show specific error message if available
@@ -218,10 +219,10 @@ export default function ContactPage() {
                                             <div>
                                                 <h3 className="font-medium text-lg mb-1">Email</h3>
                                                 <a
-                                                    href="mailto:contact@example.com"
+                                                    href="mailto:emmanuel.ouangnamou@gmail.com"
                                                     className="text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                                                 >
-                                                    contact@example.com
+                                                    buzima@ashesi.edu.gh
                                                 </a>
                                             </div>
                                         </div>
