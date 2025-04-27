@@ -166,7 +166,7 @@ export default function PromoVideoPage() {
                                             alt="Video thumbnail"
                                             width={1280}
                                             height={720}
-                                            className="absolute inset-0 w-full h-full object-cover"
+                                            className="absolute inset-0 w-full h-full"
                                         />
                                     )}
 
@@ -281,8 +281,7 @@ export default function PromoVideoPage() {
                         <CardContent className="p-6">
                             <h3 className="text-xl font-bold mb-3 font-serif">Project Overview</h3>
                             <p className="font-light">
-                                Our video showcases the mathematical modeling of cancer dynamics using differential equations and
-                                computational methods.
+                                This video models tumor growth from weak immune systems using ODEs. It combines math, coding, and real-world cancer dynamics.
                             </p>
                         </CardContent>
                     </Card>
@@ -291,8 +290,9 @@ export default function PromoVideoPage() {
                         <CardContent className="p-6">
                             <h3 className="text-xl font-bold mb-3 font-serif">Key Findings</h3>
                             <p className="font-light">
-                                Discover how our model predicts tumor growth patterns and immune system responses under various
-                                conditions.
+                                Weak immune response leads to tumor survival and growth.
+                                Parameter sensitivity shows which factors speed up cancer.
+                                Simulation matches biological behavior of cancer stages.
                             </p>
                         </CardContent>
                     </Card>
@@ -301,7 +301,9 @@ export default function PromoVideoPage() {
                         <CardContent className="p-6">
                             <h3 className="text-xl font-bold mb-3 font-serif">Future Applications</h3>
                             <p className="font-light">
-                                Learn how our research could inform personalized treatment strategies and preventative measures.
+                                The model can guide early cancer prevention strategies.
+                                It can be extended to study therapies and diet effects.
+                                Future work aims to personalize cancer predictions.
                             </p>
                         </CardContent>
                     </Card>
