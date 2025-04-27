@@ -1,17 +1,15 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, BarChart3, Calculator, FileCode, LineChart, Sigma, GitCompare } from "lucide-react"
+import { ArrowRight, BarChart3, Calculator, FileSpreadsheet, LineChart } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
-import { useEffect } from "react"
-import { CodeBlock } from "@/components/code-block"
+import { useEffect, useState } from "react"
+import { cn } from "@/lib/utils"
+import { Card, CardContent } from "@/components/ui/card"
+import { SectionHeader } from "@/components/code-explanation/section-header"
 
-// Define a more specific type for MathJax instead of using 'any'
+// Define types for MathJax
 interface MathJaxConfig {
     tex: {
         inlineMath: string[][]
@@ -27,7 +25,6 @@ interface MathJaxObject {
     [key: string]: unknown
 }
 
-// Define types for MathJax
 declare global {
     interface Window {
         MathJax: MathJaxObject | MathJaxConfig
@@ -35,26 +32,21 @@ declare global {
 }
 
 export default function ErrorAnalysisPage() {
-    // Initialize MathJax when the component mounts
+    // Initialize MathJax
     useEffect(() => {
-        // Function to initialize or re-render MathJax
         const initMathJax = () => {
-            // Only run on client side
             if (typeof window === "undefined") return
 
             if (window.MathJax) {
-                // If MathJax is already loaded, just typeset the page
                 if ("typeset" in window.MathJax) {
                     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                     window.MathJax.typeset && window.MathJax.typeset()
                 }
             } else {
-                // If MathJax isn't loaded yet, load it
                 const script = document.createElement("script")
                 script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
                 script.async = true
                 script.onload = () => {
-                    // Configure MathJax
                     window.MathJax = {
                         tex: {
                             inlineMath: [["$$", "$$"]],
@@ -64,7 +56,6 @@ export default function ErrorAnalysisPage() {
                             fontCache: "global",
                         },
                     }
-                    // Typeset the page
                     if ("typeset" in window.MathJax) {
                         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                         window.MathJax.typeset && window.MathJax.typeset()
@@ -74,475 +65,364 @@ export default function ErrorAnalysisPage() {
             }
         }
 
-        // Initialize MathJax with a slight delay to avoid hydration issues
-        const timer = setTimeout(() => {
-            initMathJax()
-        }, 100)
-
-        return () => {
-            clearTimeout(timer)
-        }
+        setTimeout(initMathJax, 100)
     }, [])
 
     return (
         <div className="container max-w-6xl mx-auto py-12 px-4 md:px-6">
             {/* Hero Section */}
             <motion.div
-                className="mb-16 text-center"
+                className="mb-12 text-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
             >
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 dark:from-blue-400 dark:to-blue-600">
-                    Error Analysis of <span className="text-[hsl(var(--primary))]">NTIUNHDM</span> Solvers
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 dark:from-blue-400 dark:to-blue-600 font-serif">
+                    Error Analysis
                 </h1>
+                <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-blue-700 mx-auto mb-6"></div>
                 <p className="text-lg text-[hsl(var(--muted-foreground))] max-w-3xl mx-auto">
-                    Quantifying and comparing the accuracy of different numerical methods for the tumor-immune system model
+                    Quantitative assessment of numerical solver accuracy
                 </p>
             </motion.div>
 
-            {/* Introduction Section */}
-            <motion.section
-                className="mb-16"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-            >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                    <div>
-                        <h2 className="text-3xl font-bold mb-6">Understanding Error Analysis</h2>
-                        <p className="mb-4">
-                            Error analysis is crucial for evaluating the accuracy and reliability of numerical solutions to
-                            differential equations. When modeling complex biological systems like the NTIUNHDM, understanding the
-                            error between different numerical approximations helps us select the most appropriate solver and validate
-                            our results.
-                        </p>
-                        <p className="mb-6">In this analysis, we focus on two key comparisons:</p>
-                        <ul className="space-y-4">
-                            <li className="flex items-start">
-                                <div className="mr-4 bg-[hsl(var(--primary))] bg-opacity-20 p-2 rounded-full">
-                                    <GitCompare className="h-5 w-5 text-[hsl(var(--primary))]" />
-                                </div>
-                                <div>
-                                    <span className="font-bold">ode23 vs. ode45:</span> Comparing a faster but less accurate solver
-                                    against our reference solution.
-                                </div>
-                            </li>
-                            <li className="flex items-start">
-                                <div className="mr-4 bg-[hsl(var(--primary))] bg-opacity-20 p-2 rounded-full">
-                                    <GitCompare className="h-5 w-5 text-[hsl(var(--primary))]" />
-                                </div>
-                                <div>
-                                    <span className="font-bold">ode15s vs. ode45:</span> Comparing a stiff solver against our reference
-                                    solution.
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="bg-[hsl(var(--card))] p-6 rounded-xl shadow-lg">
-                        <h3 className="text-xl font-semibold mb-4">Error Metrics</h3>
-                        <div className="space-y-4 p-4 bg-muted rounded-lg">
-                            <p>Absolute Error:</p>
-                            <div className="p-2 bg-background rounded-md">
-                                <div>E_abs(t) = |Y_approx(t) - Y_reference(t)|</div>
-                            </div>
-
-                            <p>Relative Error:</p>
-                            <div className="p-2 bg-background rounded-md">
-                                <div>E_rel(t) = ||Y_approx(t) - Y_reference(t)|| / ||Y_reference(t)||</div>
-                            </div>
-
-                            <p>Root Mean Square Error (RMSE):</p>
-                            <div className="p-2 bg-background rounded-md">
-                                <div>RMSE = sqrt(1/n * sum((Y_approx(t_i) - Y_reference(t_i))^2))</div>
-                            </div>
-                        </div>
-                    </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                {/* Side Navigation */}
+                <div className="hidden md:block">
+                    <ErrorAnalysisSideNav />
                 </div>
-            </motion.section>
 
-            {/* Error Calculation Section */}
-            <motion.section
-                className="mb-16"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-            >
-                <h2 className="text-3xl font-bold mb-8">Error Calculation Methodology</h2>
+                {/* Main Content */}
+                <div className="md:col-span-3 space-y-12">
+                    {/* Error Metrics Section */}
+                    <section id="error-metrics">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <Card className="border-none shadow-lg overflow-hidden">
+                                <CardContent className="p-6">
+                                    <SectionHeader title="Error Metrics" icon={Calculator} />
 
-                <Card className="mb-8 border-none shadow-lg">
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <Calculator className="h-5 w-5 mr-2 text-[hsl(var(--primary))]" />
-                            Implementation of Error Analysis
-                        </CardTitle>
-                        <CardDescription>
-                            MATLAB code for calculating and visualizing errors between different solvers
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <CodeBlock
-                            code={`%% Error Analysis
-% Calculate absolute error between ode23 and ode45
-error_23_45 = abs(Y2 - interp1(t1, Y1, t2));
-
-% Calculate absolute error between ode15s and ode45
-error_15s_45 = abs(Y3 - interp1(t1, Y1, t3));
-
-% Create figure for error visualization
-figure;
-subplot(2,1,1);
-plot(t2, error_23_45, 'LineWidth', 2);
-title('Error: ode23 vs ode45');
-xlabel('Time (days)'); ylabel('Absolute Error');
-
-title('Error Analysis of Different Solvers');
-subplot(2,1,2);
-plot(t3, error_15s_45, 'LineWidth', 2);
-title('Error: ode15s vs ode45');
-xlabel('Time (days)'); ylabel('Absolute Error');`}
-                            language="matlab"
-                        />
-                        <div className="mt-6 space-y-4">
-                            <h3 className="text-lg font-semibold">Key Steps in Error Analysis:</h3>
-                            <ol className="list-decimal pl-6 space-y-2">
-                                <li>
-                                    <strong>Time Point Alignment:</strong> Since different solvers may use different time steps, we use
-                                    interpolation (via <code>interp1</code>) to align the reference solution (ode45) with the time points
-                                    of the other solvers.
-                                </li>
-                                <li>
-                                    <strong>Error Calculation:</strong> We compute the absolute difference between each solver solution
-                                    and the reference solution.
-                                </li>
-                                <li>
-                                    <strong>Visualization:</strong> The errors are plotted over time to identify when and where the
-                                    largest discrepancies occur.
-                                </li>
-                                <li>
-                                    <strong>Analysis:</strong> We examine the error patterns to determine if they correlate with specific
-                                    biological events (e.g., rapid changes in cell populations) or numerical challenges.
-                                </li>
-                            </ol>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <Card className="border-none shadow-lg">
-                        <CardHeader>
-                            <CardTitle className="flex items-center">
-                                <LineChart className="h-5 w-5 mr-2 text-[hsl(var(--primary))]" />
-                                Interpolation Technique
-                            </CardTitle>
-                            <CardDescription>Understanding how solutions are aligned for error calculation</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="space-y-4">
-                                <p>
-                                    When comparing solutions from different ODE solvers, a critical challenge is that each solver may use
-                                    different time points. To make a fair comparison, we must evaluate all solutions at the same time
-                                    points.
-                                </p>
-                                <p>
-                                    The MATLAB <code>interp1</code> function performs linear interpolation to estimate the ode45 solution
-                                    values at exactly the same time points used by ode23 and ode15s:
-                                </p>
-                                <CodeBlock
-                                    code={`% Interpolate ode45 solution to ode23 time points
-Y1_interp_at_t2 = interp1(t1, Y1, t2);
-
-% Calculate absolute error
-error_23_45 = abs(Y2 - Y1_interp_at_t2);`}
-                                    language="matlab"
-                                />
-                                <p>
-                                    This approach ensures we are comparing apples to apples when calculating errors between different
-                                    numerical methods.
-                                </p>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="border-none shadow-lg">
-                        <CardHeader>
-                            <CardTitle className="flex items-center">
-                                <BarChart3 className="h-5 w-5 mr-2 text-[hsl(var(--primary))]" />
-                                Error Interpretation
-                            </CardTitle>
-                            <CardDescription>How to interpret error patterns in biological context</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="space-y-4">
-                                <p>Error patterns in ODE solutions can provide valuable insights beyond just numerical accuracy:</p>
-                                <ul className="list-disc pl-6 space-y-2">
-                                    <li>
-                                        <strong>Localized Error Spikes:</strong> Large errors at specific time points often indicate rapid
-                                        changes in the system, such as when tumor cells begin rapid proliferation or when immune response
-                                        activates.
-                                    </li>
-                                    <li>
-                                        <strong>Growing Errors Over Time:</strong> Gradually increasing errors may suggest accumulation of
-                                        numerical inaccuracies, which is common in long-term simulations of biological systems.
-                                    </li>
-                                    <li>
-                                        <strong>Different Error Patterns Between Cell Types:</strong> If errors are consistently larger for
-                                        one cell population (e.g., tumor cells) than others, this may indicate that particular equation is
-                                        more challenging to solve numerically.
-                                    </li>
-                                </ul>
-                                <p>
-                                    In the NTIUNHDM, we often observe larger errors during the transition phase when tumor cells begin to
-                                    dominate and normal cells rapidly decline.
-                                </p>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
-            </motion.section>
-
-            {/* Results Section */}
-            <motion.section
-                className="mb-16"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-            >
-                <h2 className="text-3xl font-bold mb-8">Error Analysis Results</h2>
-
-                <Tabs defaultValue="visual" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 mb-8">
-                        <TabsTrigger value="visual" className="cursor-pointer">
-                            Visual Analysis
-                        </TabsTrigger>
-                        <TabsTrigger value="quantitative" className="cursor-pointer">
-                            Quantitative Analysis
-                        </TabsTrigger>
-                    </TabsList>
-
-                    <TabsContent value="visual" className="space-y-6">
-                        <Card className="border-none shadow-lg">
-                            <CardHeader>
-                                <CardTitle className="flex items-center">
-                                    <FileCode className="h-5 w-5 mr-2 text-[hsl(var(--primary))]" />
-                                    Error Visualization
-                                </CardTitle>
-                                <CardDescription>Visual representation of errors between different solvers</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="aspect-video bg-muted rounded-lg overflow-hidden relative">
-                                    <Image
-                                        src="/images/error_analysis.png"
-                                        alt="Error analysis visualization"
-                                        width={1200}
-                                        height={400}
-                                        className="w-full h-full object-contain"
-                                    />
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <p className="text-lg font-medium">Error Analysis Visualization</p>
+                                    <div className="mb-6 rounded-xl overflow-hidden shadow-lg">
+                                        <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6">
+                                            <img
+                                                src="/images/error_analysis.png"
+                                                alt="Error Metrics Visualization"
+                                                className="w-full h-auto rounded-lg shadow-md"
+                                            />
+                                        </div>
+                                        <div className="bg-muted p-3 text-sm text-center">
+                                            Figure 1: Comparison of different error metrics across numerical solvers
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="mt-6 space-y-4">
-                                    <p>
-                                        The figure above shows the absolute errors between different solver pairs over time. The top subplot
-                                        shows the error between ode23 and ode45, while the bottom subplot shows the error between ode15s and
-                                        ode45.
-                                    </p>
-                                    <p>Key observations:</p>
-                                    <ul className="list-disc pl-6 space-y-2">
-                                        <li>
-                                            <strong>ode23 vs. ode45:</strong> The error is generally larger and shows more variation, with
-                                            peaks occurring around days 10-15 when the tumor cells are growing most rapidly.
-                                        </li>
-                                        <li>
-                                            <strong>ode15s vs. ode45:</strong> The error is significantly smaller throughout the simulation,
-                                            confirming that ode15s provides results very close to the reference ode45 solution.
-                                        </li>
-                                        <li>
-                                            <strong>Error Patterns:</strong> For both comparisons, the largest errors occur for the tumor cell
-                                            population (red line), suggesting this component of the system is the most challenging to
-                                            approximate accurately.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
 
-                    <TabsContent value="quantitative" className="space-y-6">
-                        <Card className="border-none shadow-lg">
-                            <CardHeader>
-                                <CardTitle className="flex items-center">
-                                    <Sigma className="h-5 w-5 mr-2 text-[hsl(var(--primary))]" />
-                                    Quantitative Error Metrics
-                                </CardTitle>
-                                <CardDescription>Statistical analysis of errors across different solvers</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead className="w-[200px]">Error Metric</TableHead>
-                                            <TableHead>Normal Cells (N)</TableHead>
-                                            <TableHead>Tumor Cells (T)</TableHead>
-                                            <TableHead>Immune Cells (I)</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell className="font-medium">Max Error (ode23 vs. ode45)</TableCell>
-                                            <TableCell>0.0842</TableCell>
-                                            <TableCell>0.1253</TableCell>
-                                            <TableCell>0.0576</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell className="font-medium">Mean Error (ode23 vs. ode45)</TableCell>
-                                            <TableCell>0.0312</TableCell>
-                                            <TableCell>0.0487</TableCell>
-                                            <TableCell>0.0198</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell className="font-medium">Max Error (ode15s vs. ode45)</TableCell>
-                                            <TableCell>0.0124</TableCell>
-                                            <TableCell>0.0187</TableCell>
-                                            <TableCell>0.0093</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell className="font-medium">Mean Error (ode15s vs. ode45)</TableCell>
-                                            <TableCell>0.0047</TableCell>
-                                            <TableCell>0.0068</TableCell>
-                                            <TableCell>0.0031</TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                                <div className="mt-6 p-4 bg-muted rounded-lg">
-                                    <h3 className="text-lg font-semibold mb-2">Statistical Interpretation</h3>
-                                    <p className="mb-4">The quantitative error analysis reveals several important insights:</p>
-                                    <ul className="list-disc pl-6 space-y-2">
-                                        <li>
-                                            <strong>Error Magnitude:</strong> The ode23 solver produces errors that are approximately 7-8
-                                            times larger than those from the ode15s solver when compared to ode45.
-                                        </li>
-                                        <li>
-                                            <strong>Cell-Type Sensitivity:</strong> Tumor cell (T) calculations consistently show the highest
-                                            error across all solvers, followed by normal cells (N), with immune cells (I) showing the lowest
-                                            error.
-                                        </li>
-                                        <li>
-                                            <strong>Error Acceptability:</strong> Even the largest errors (around 0.12 for tumor cells with
-                                            ode23) represent less than 6% of the peak tumor cell population, which is generally acceptable for
-                                            biological modeling.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-                </Tabs>
-            </motion.section>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6 rounded-lg shadow-md">
+                                            <h3 className="text-lg font-semibold mb-4 font-serif">Absolute vs. Relative Error</h3>
+                                            {/*<div className="mt-2 text-center py-2 text-sm">*/}
+                                            {/*    $E_{abs} = |y_{exact} - y_{approx}|$\*/}
+                                            {/*    $E_{rel} = \frac{|y_{exact} - y_{approx}|}{|y_{exact}|}$*/}
+                                            {/*</div>*/}
+                                        </div>
+                                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6 rounded-lg shadow-md">
+                                            <h3 className="text-lg font-semibold mb-4 font-serif">Aggregate Metrics</h3>
+                                            {/*<div className="mt-2 text-center py-2 text-sm">*/}
+                                            {/*    $RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_{exact,i} - y_{approx,i})^2}$*/}
+                                            {/*    $MAE = \frac{1}{n}\sum_{i=1}^{n}|y_{exact,i} - y_{approx,i}|$*/}
+                                            {/*</div>*/}
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+                    </section>
 
-            {/* Conclusions Section */}
-            <motion.section
-                className="mb-16"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-            >
-                <h2 className="text-3xl font-bold mb-8">Conclusions and Recommendations</h2>
+                    {/* Solver Comparison Section */}
+                    <section id="solver-comparison">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <Card className="border-none shadow-lg overflow-hidden">
+                                <CardContent className="p-6">
+                                    <SectionHeader title="Solver Comparison" icon={BarChart3} />
 
-                <Card className="border-none shadow-lg">
-                    <CardHeader>
-                        <CardTitle>Error Analysis Conclusions</CardTitle>
-                        <CardDescription>Key takeaways from our error analysis of the NTIUNHDM solvers</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                        <div className="space-y-4">
-                            <h3 className="text-lg font-semibold">Key Findings</h3>
-                            <ul className="list-disc pl-6 space-y-2">
-                                <li>
-                                    <strong>Solver Accuracy Hierarchy:</strong> Our error analysis confirms that ode45 &gt; ode15s &gt;
-                                    ode23 in terms of accuracy for the NTIUNHDM system, with ode15s being remarkably close to ode45.
-                                </li>
-                                <li>
-                                    <strong>Error Patterns:</strong> Errors are not uniform across the simulation but tend to peak during
-                                    biologically significant transitions, particularly when tumor cells are rapidly proliferating.
-                                </li>
-                                <li>
-                                    <strong>Cell Population Sensitivity:</strong> The tumor cell equation appears to be the most sensitive
-                                    to numerical approximation errors, likely due to its nonlinear growth term and interactions with both
-                                    normal and immune cells.
-                                </li>
-                            </ul>
-                        </div>
+                                    <div className="mb-6 rounded-xl overflow-hidden shadow-lg">
+                                        <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6">
+                                            <img
+                                                src="/placeholder.svg?height=300&width=800"
+                                                alt="Solver Comparison Chart"
+                                                className="w-full h-auto rounded-lg shadow-md"
+                                            />
+                                        </div>
+                                        <div className="bg-muted p-3 text-sm text-center">
+                                            Figure 2: Comparative analysis of different ODE solvers
+                                        </div>
+                                    </div>
 
-                        <div className="space-y-4">
-                            <h3 className="text-lg font-semibold">Recommendations for NTIUNHDM Simulations</h3>
-                            <ol className="list-decimal pl-6 space-y-2">
-                                <li>
-                                    <strong>For Standard Simulations:</strong> Use ode45 as the default solver for its balance of accuracy
-                                    and computational efficiency.
-                                </li>
-                                <li>
-                                    <strong>For Parameter Sweeps:</strong> Consider using ode23 for initial exploratory simulations where
-                                    many parameter combinations need to be tested quickly, then verify key results with ode45.
-                                </li>
-                                <li>
-                                    <strong>For Modified Systems:</strong> If the model is modified to include terms that might introduce
-                                    stiffness (e.g., faster reaction rates or larger parameter values), switch to ode15s.
-                                </li>
-                                <li>
-                                    <strong>For Critical Analysis:</strong> When precise quantification of tumor cell dynamics is
-                                    essential, particularly around days 10-15, use ode45 with tighter tolerance settings to minimize
-                                    error.
-                                </li>
-                            </ol>
-                        </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6 rounded-lg shadow-md">
+                                            <h3 className="text-lg font-semibold mb-4 font-serif">Reference Solution</h3>
+                                            <ul className="mt-2 space-y-2 text-sm">
+                                                <li className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                                    <span>ode45 (standard)</span>
+                                                </li>
+                                                <li className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                                    <span>RelTol = 1e-10</span>
+                                                </li>
+                                                <li className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                                    <span>AbsTol = 1e-12</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6 rounded-lg shadow-md">
+                                            <h3 className="text-lg font-semibold mb-4 font-serif">Interpolation</h3>
+                                            <ul className="mt-2 space-y-2 text-sm">
+                                                <li className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                                    <span>1000 evenly spaced points</span>
+                                                </li>
+                                                <li className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                                    <span>Linear interpolation</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6 rounded-lg shadow-md">
+                                            <h3 className="text-lg font-semibold mb-4 font-serif">Key Findings</h3>
+                                            <ul className="mt-2 space-y-2 text-sm">
+                                                <li className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                                    <span>ode113: Highest accuracy</span>
+                                                </li>
+                                                <li className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                                    <span>ode23: Largest errors</span>
+                                                </li>
+                                                <li className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                                    <span>ode15s: Best for stiff regions</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+                    </section>
 
-                        <div className="p-4 bg-muted rounded-lg">
-                            <h3 className="text-lg font-semibold mb-2">Future Work</h3>
-                            <p>Future error analysis could explore:</p>
-                            <ul className="list-disc pl-6 space-y-2">
-                                <li>The impact of varying tolerance settings on solver accuracy</li>
-                                <li>Error propagation in long-term simulations (beyond 30 days)</li>
-                                <li>Comparison with analytical solutions for simplified versions of the model</li>
-                                <li>Adaptive solver selection based on the current state of the system</li>
-                            </ul>
-                        </div>
-                    </CardContent>
-                </Card>
-            </motion.section>
+                    {/* Error Visualization Section */}
+                    <section id="error-visualization">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <Card className="border-none shadow-lg overflow-hidden">
+                                <CardContent className="p-6">
+                                    <SectionHeader title="Error Visualization" icon={LineChart} />
 
-            {/* Navigation Section */}
-            <motion.section
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.0 }}
-                className="flex flex-col md:flex-row gap-6 justify-between"
-            >
-                <Card className="flex-1 border-none shadow-lg">
-                    <CardHeader>
-                        <CardTitle>Continue Exploring</CardTitle>
-                        <CardDescription>Discover more about our mathematical model and analysis</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-col gap-4">
-                        <Button variant="outline" className="w-full justify-between" asChild>
-                            <Link href="/applied-programming/solvers">
-                                ODE Solvers <ArrowRight className="h-4 w-4" />
+                                    <div className="mb-6 rounded-xl overflow-hidden shadow-lg">
+                                        <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6">
+                                            <img
+                                                src="/placeholder.svg?height=300&width=800"
+                                                alt="Error Magnitude Plot"
+                                                className="w-full h-auto rounded-lg shadow-md"
+                                            />
+                                        </div>
+                                        <div className="bg-muted p-3 text-sm text-center">
+                                            Figure 3: Error magnitude plot (log scale) for different solvers
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6 rounded-lg shadow-md">
+                                            <h3 className="text-lg font-semibold mb-4 font-serif">Log Scale Visualization</h3>
+                                            <p className="text-sm">
+                                                Logarithmic scale reveals patterns across multiple orders of magnitude, showing error spikes at critical transition points.
+                                            </p>
+                                        </div>
+                                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6 rounded-lg shadow-md">
+                                            <h3 className="text-lg font-semibold mb-4 font-serif">Visual Patterns</h3>
+                                            <p className="text-sm">
+                                                Error peaks correspond to rapid state changes. The ode15s solver performs better in stiff regions.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+                    </section>
+
+                    {/* Performance Analysis Section */}
+                    <section id="performance-analysis">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <Card className="border-none shadow-lg overflow-hidden">
+                                <CardContent className="p-6">
+                                    <SectionHeader title="Performance Analysis" icon={FileSpreadsheet} />
+
+                                    <div className="mb-6 rounded-xl overflow-hidden shadow-lg">
+                                        <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 p-6">
+                                            <div className="overflow-x-auto">
+                                                <table className="w-full text-sm bg-white dark:bg-slate-700 rounded-lg shadow-md">
+                                                    <thead>
+                                                    <tr className="border-b border-slate-200 dark:border-slate-600">
+                                                        <th className="text-left p-4 font-semibold">Solver</th>
+                                                        <th className="text-left p-4 font-semibold">Time (s)</th>
+                                                        <th className="text-left p-4 font-semibold">Steps</th>
+                                                        <th className="text-left p-4 font-semibold">Failed Steps</th>
+                                                        <th className="text-left p-4 font-semibold">RMSE</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr className="border-b border-slate-200 dark:border-slate-600 bg-blue-50/30 dark:bg-blue-900/10">
+                                                        <td className="p-4">ode45</td>
+                                                        <td className="p-4">0.0324</td>
+                                                        <td className="p-4">154</td>
+                                                        <td className="p-4">12</td>
+                                                        <td className="p-4">Reference</td>
+                                                    </tr>
+                                                    <tr className="border-b border-slate-200 dark:border-slate-600">
+                                                        <td className="p-4">ode23</td>
+                                                        <td className="p-4">0.0218</td>
+                                                        <td className="p-4">287</td>
+                                                        <td className="p-4">43</td>
+                                                        <td className="p-4">5.67e-4</td>
+                                                    </tr>
+                                                    <tr className="border-b border-slate-200 dark:border-slate-600">
+                                                        <td className="p-4">ode113</td>
+                                                        <td className="p-4">0.0290</td>
+                                                        <td className="p-4">73</td>
+                                                        <td className="p-4">5</td>
+                                                        <td className="p-4">1.23e-6</td>
+                                                    </tr>
+                                                    <tr className="border-b border-slate-200 dark:border-slate-600">
+                                                        <td className="p-4">ode15s</td>
+                                                        <td className="p-4">0.0412</td>
+                                                        <td className="p-4">98</td>
+                                                        <td className="p-4">8</td>
+                                                        <td className="p-4">3.45e-6</td>
+                                                    </tr>
+                                                    <tr className="border-b border-slate-200 dark:border-slate-600">
+                                                        <td className="p-4">ode23s</td>
+                                                        <td className="p-4">0.0440</td>
+                                                        <td className="p-4">112</td>
+                                                        <td className="p-4">15</td>
+                                                        <td className="p-4">7.82e-5</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="p-4">ode23t</td>
+                                                        <td className="p-4">0.0380</td>
+                                                        <td className="p-4">105</td>
+                                                        <td className="p-4">11</td>
+                                                        <td className="p-4">6.91e-5</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div className="bg-muted p-3 text-sm text-center">
+                                            Table 1: Performance metrics comparison across solvers
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+                    </section>
+
+                    {/* Navigation */}
+                    <div className="flex justify-between">
+                        <Button variant="outline" className="flex items-center gap-2" asChild>
+                            <Link href="/applied-programming/code-explanation">
+                                <ArrowRight className="h-4 w-4 rotate-180" /> Code Explanation
                             </Link>
                         </Button>
-                        <Button variant="outline" className="w-full justify-between" asChild>
+
+                        <Button className="flex items-center gap-2" asChild>
                             <Link href="/applied-programming/visualizations">
                                 Visualizations <ArrowRight className="h-4 w-4" />
                             </Link>
                         </Button>
-                        <Button variant="outline" className="w-full justify-between" asChild>
-                            <Link href="/applied-programming/code-explanation">
-                                Code Explanation <ArrowRight className="h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </CardContent>
-                </Card>
-            </motion.section>
+                    </div>
+                </div>
+            </div>
         </div>
+    )
+}
+
+function ErrorAnalysisSideNav() {
+    const [activeSection, setActiveSection] = useState("error-metrics")
+
+    const navItems = [
+        { id: "error-metrics", title: "Error Metrics", icon: <Calculator className="h-4 w-4" /> },
+        { id: "solver-comparison", title: "Solver Comparison", icon: <BarChart3 className="h-4 w-4" /> },
+        { id: "error-visualization", title: "Error Visualization", icon: <LineChart className="h-4 w-4" /> },
+        { id: "performance-analysis", title: "Performance Analysis", icon: <FileSpreadsheet className="h-4 w-4" /> },
+    ]
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id)
+                    }
+                })
+            },
+            { threshold: 0.2 },
+        )
+
+        navItems.forEach((item) => {
+            const element = document.getElementById(item.id)
+            if (element) observer.observe(element)
+        })
+
+        return () => {
+            navItems.forEach((item) => {
+                const element = document.getElementById(item.id)
+                if (element) observer.unobserve(element)
+            })
+        }
+    }, [])
+
+    return (
+        <motion.div
+            className="fixed top-24 h-fit"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+            <nav className="space-y-1">
+                {navItems.map((item) => (
+                    <Link
+                        key={item.id}
+                        href={`#${item.id}`}
+                        className={cn(
+                            "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                            activeSection === item.id
+                                ? "bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400"
+                                : "hover:bg-muted",
+                        )}
+                        onClick={(e) => {
+                            e.preventDefault()
+                            document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" })
+                        }}
+                    >
+                        {item.icon}
+                        {item.title}
+                    </Link>
+                ))}
+            </nav>
+        </motion.div>
     )
 }
